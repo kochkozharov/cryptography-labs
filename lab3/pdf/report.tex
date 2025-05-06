@@ -1,0 +1,228 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T2A]{fontenc}
+\usepackage[russian]{babel}
+\usepackage{geometry}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{caption}
+\geometry{margin=2cm}
+\usepackage{xcolor}  
+\usepackage{listings}
+
+% Настройка стиля для Python
+\lstdefinelanguage{Python}{
+    keywords={def, return, if, else, for, while, import, as, from, class},
+    sensitive=true,
+    comment=[l]{\#},
+    morestring=[b]",
+}
+\lstset{
+    language=Python,
+    basicstyle=\ttfamily\small,
+    keywordstyle=\color{blue},
+    commentstyle=\color{gray},
+    stringstyle=\color{green!60!black},
+    showstringspaces=false,
+    frame=single,
+    numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+    breaklines=true,
+    backgroundcolor=\color{gray!5},
+}
+
+\begin{document}
+
+\section*{Отчёт по лабораторной работе 3}
+
+\bigskip
+
+\textbf{Студент:} Кочкожаров Иван Вячеславович
+
+\noindent
+\textbf{Группа:} \underline{М8О-308Б-22}
+
+\bigskip
+
+\section{Цель работы}
+Исследовать процент совпадения букв при сравнении различных типов текстов: осмысленных и случайных, букв и слов.
+
+\section{Алгоритм сравнения}
+\begin{enumerate}
+\item Получить две строки одинаковой длины: обрезать или сгенерировать как требуется.
+\item Для каждой позиции $i$ от 1 до $N$ ($N$~--- длина): сравнить $t_1[i]$ и $t_2[i]$.
+\item Подсчитать число совпадений $C = \sum_{i=1}^N [t_1[i] = t_2[i]]$.
+\item Вычислить долю совпадений $P = C / N$.
+\end{enumerate}
+
+\section{Описание случаев}
+\begin{enumerate}
+\item \textbf{Два осмысленных текста}: Платон «Государство» и Мелвилл «Моби Дик». \
+\item \textbf{Осмысленный текст и случайные буквы}: Платон и случайная строка букв. \
+\item \textbf{Осмысленный текст и случайные слова}: Платон и строка из случайных слов. \
+\item \textbf{Два текста из случайных букв}. \
+\item \textbf{Два текста из случайных слов}.
+\end{enumerate}
+
+\section{Результаты эксперимента}
+\captionsetup[longtable]{labelformat=empty}
+\begin{longtable}{|p{3cm}|p{3cm}|p{3cm}|p{3cm}|}
+\hline
+Случай & Длина текста & Совпадения & Доля $P$ \\
+\hline
+\endhead
+
+1. Осмысленные тексты & 1 238 632 & 80 113 & 0,06471 \\
+\hline
+2. Осмысленный и случайные буквы & 1 238 632 & 18 355 & 0,01482 \\
+\hline
+3. Осмысленный и случайные слова & 1 238 632 & 71 085 & 0,05739 \\
+\hline
+4. Два случайных буквенных текста & 1 000 000 & 19 230 & 0,01923 \\
+\hline
+5. Два случайных текстов из слов & 1 000 000 & 57 870 & 0,05787 \\
+\hline
+\end{longtable}
+
+\section{Обсуждение результатов}
+На основе полученных значений можно сделать следующие выводы:
+
+\begin{itemize}
+\item \textbf{Два осмысленных текста:} значение $P\approx0{,}065$ существенно выше, чем для случайных наборов символов. Это объясняется схожестью статистического распределения букв и пробелов в естественных текстах одного языка: часто встречаются одни и те же буквы, знаки препинания и пробелы.
+
+\item \textbf{Осмысленный текст и случайные буквы:} $P\approx0{,}015$ близко к $1/52\approx0{,}0192$, что соответствует совпадению одного конкретного символа при равновероятном выборе из 52 букв латинского алфавита. Это значит, что вероятность угадать букву случайно примерно такая же.
+
+\item \textbf{Два текста из случайных букв:} $P\approx0{,}0192$ совпадает с теоретическим значением $\sum_{a}p(a)^2$ для равномерного распределения букв (каждая буква встречается с вероятностью $1/52$). Таким образом, эксперимент подтверждает теорию: вероятность совпадения двух случайных букв равна $1/52$.
+
+\item \textbf{Осмысленный текст и случайные слова:} $P\approx0{,}0574$. Здесь сравнивается осмысленный текст с текстом, составленным из случайных английских слов.
+\begin{itemize}
+  \item Пробелы между словами занимают существенную долю позиций (около 0.15 -- 0.2), что сама по себе даёт высокий шанс совпадения пробела.
+  \item Даже если слова в словаре распределены равномерно, повторяются конструкции вроде ``ing'', ``ion'' в различных словах, что даёт совпадения на уровне буквосочетаний.
+\end{itemize}
+
+\item \textbf{Два текста из случайных слов:} $P\approx0{,}0579$. При сравнении двух независимых последовательностей случайных слов:
+\begin{itemize}
+  \item Пробелы в обоих текстах совпадают с одинаковой частотой, добавляя вклад в общий процент.
+  \item Несмотря на большой объём словаря, повторяющиеся окончания (например, суффиксы ``ing'', ``ly'') могут совпасть между двумя текстами.
+  \item В итоге комбинация совпадающих пробелов и повторяющихся морфем даёт долю совпадений около 0.058, получается очень похожая на предыдущий случай картина. 
+\end{itemize}
+
+
+\end{itemize}
+
+\section{Выбор длины текста}
+Для устойчивой оценки доли необходимо, чтобы дисперсия доли совпадений была мала: $\mathrm{Var}(P)=p(1-p)/N$. 
+Желаема точность: $\sigma_P = \sqrt{\frac{p(1-p)}{N}} \le \varepsilon = 0.001$. Для желаемой точности $\pm0{,}001$ при $p=0.065$ (наибольшее значение в экспериментах) достаточно $N\approx p(1-p)/(0{,}001)^2\approx0{,}065\cdot0{,}935/10^{-6}\approx6\times10^4$. Поэтому длины порядка $10^5$ символов достаточно для всех сценариев.
+
+\section{Приложение: код}
+
+
+\begin{lstlisting}
+import random
+import string
+import urllib.request
+
+
+CNT_RANDOM_TEXTS = 10
+LEN_RANDOM_TEXT = 10 ** 6
+URL1 = 'https://www.gutenberg.org/cache/epub/1497/pg1497.txt'
+URL2 = 'https://www.gutenberg.org/cache/epub/2701/pg2701.txt'
+
+def match_stat(text1, text2):
+    cnt = 0
+    for char1, char2 in zip(text1, text2):
+        if char1 == char2:
+            cnt += 1
+    return cnt / min(len(text1), len(text2))
+
+
+def gen_random_letters(n):
+    return ''.join(random.choice(string.ascii_letters) for _ in range(n))
+
+def gen_random_words(n):
+    url = 'https://raw.githubusercontent.com/dwyl/english-words/master/words.txt'
+    response = urllib.request.urlopen(url)
+    words = response.read().decode()
+    words = words.splitlines()
+    text = ''
+    while len(text) < n:
+        text += ' ' + random.choice(words)
+    rem = len(text) - n
+    if rem != 0:
+        text = text[:-rem]
+    return text
+
+def case1():
+    print("Case #1: two meaningful texts in natural language.")
+    response = urllib.request.urlopen(URL1)
+    text1 = response.read().decode()
+    print(f"Text 1 len: {len(text1)}")
+    response = urllib.request.urlopen(URL2)
+    text2 = response.read().decode()
+    print(f"Text 2 len: {len(text2)}")
+    min_len = min(len(text1), len(text2))
+    text1 = text1[:min_len]
+    text2 = text2[:min_len]
+    print("Text length: {0}".format(min_len))
+    print("Match: {0}".format(match_stat(text1, text2)))
+
+
+def case2():
+    print("Case #2: meaningful text and text from random letters.")
+    response = urllib.request.urlopen(URL1)
+    text1 = response.read().decode()
+    s = 0
+    for i in range(CNT_RANDOM_TEXTS):
+        text2 = gen_random_letters(len(text1))
+        s += match_stat(text1, text2)
+    s /= CNT_RANDOM_TEXTS
+    print("Text length: {0}".format(len(text1)))
+    print("Match: {0}".format(s))
+
+
+def case3():
+    print("Case #3: meaningful text and text from random words.")
+    response = urllib.request.urlopen(URL1)
+    text1 = response.read().decode()
+    s = 0
+    for i in range(CNT_RANDOM_TEXTS):
+        text2 = gen_random_words(len(text1))
+        s += match_stat(text1, text2)
+    s /= CNT_RANDOM_TEXTS
+    print("Text length: {0}".format(len(text1)))
+    print("Match: {0}".format(s))
+
+
+def case4():
+    print("Case #4: two texts from random letters.")
+    s = 0
+    for i in range(CNT_RANDOM_TEXTS):
+        text1 = gen_random_letters(LEN_RANDOM_TEXT)
+        text2 = gen_random_letters(LEN_RANDOM_TEXT)
+        s += match_stat(text1, text2)
+    s /= CNT_RANDOM_TEXTS
+    print("Text length: {0}".format(LEN_RANDOM_TEXT))
+    print("Match: {0}".format(s))
+
+
+def case5():
+    print("Case #5: two texts from random words.")
+    s = 0
+    for i in range(CNT_RANDOM_TEXTS):
+        text1 = gen_random_words(LEN_RANDOM_TEXT)
+        text2 = gen_random_words(LEN_RANDOM_TEXT)
+        s += match_stat(text1, text2)
+    s /= CNT_RANDOM_TEXTS
+    print("Text length: {0}".format(LEN_RANDOM_TEXT))
+    print("Match: {0}".format(s))
+
+if __name__ == '__main__':
+    case1()
+    case2()
+    case3()
+    case4()
+    case5()
+\end{lstlisting}
+
+\end{document}
