@@ -1,11 +1,11 @@
 from ec import *
 
 if __name__ == '__main__':
-    p = 426000017
-    a = 131325779
-    b = 8713283
+    p = 387272759
+    a = 124860295
+    b = 2186117
     E = EllipticCurve(a, b, p)
-    point = (12195349,21713483)
+    point = (223741075,161701677)
     x, y  = point
     P = Point(x, y, E)
     order, elapsed = brute_order(P)

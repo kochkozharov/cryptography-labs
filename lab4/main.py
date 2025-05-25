@@ -17,7 +17,7 @@ def find_curve(p, min_seconds=540, max_seconds=660):
         return E, P, order, elapsed
 
 if __name__ == '__main__':
-    p = 300000007
+    p = 387272759
     curve, point, order, elapsed = find_curve(p)
     print("\nSelected curve and point:")
     print(f"y^2 = x^3 + {curve.a}x + {curve.b} (mod {curve.p})")
