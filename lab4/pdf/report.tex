@@ -120,6 +120,37 @@ $$
 \end{enumerate}
 
 Были проведены эксперименты с различными значениями $p$:
+\begin{lstlisting}
+p=300000007, a=139493976, b=266004513, P=(101097864,85148484), order=300002521, time=440.46s
+Too fast: only 440.46s
+p=300000007, a=127506766, b=130653405, P=(125936178,88420890), order=150015410, time=225.28s
+Too fast: only 225.28s
+p=300000007, a=41635840, b=112170592, P=(107361594,131765451), order=300010261, time=445.85s
+Too fast: only 445.85s
+p=300000007, a=177004968, b=43109284, P=(184984415,9153220), order=300000181, time=446.48s
+Too fast: only 446.48s
+\end{lstlisting}
+\begin{lstlisting}
+p=426000017, a=64982240, b=19135670, P=(228072906,97062984), order=213018587, time=332.94s
+Too fast: only 332.94s
+p=426000017, a=131325779, b=8713283, P=(230519031,147449158), order=425998575, time=658.79s
+
+Selected curve and point:
+y^2 = x^3 + 131325779x + 8713283 (mod 426000017)
+Point P = (230519031, 147449158), order = 425998575, computed in 658.79s
+\end{lstlisting}
+\begin{lstlisting}
+p=387272759, a=331128336, b=169430433, P=(164198548,22675309), order=129094316, time=204.41s
+Too fast: only 204.41s
+p=387272759, a=145203106, b=273166277, P=(116919177,167275377), order=96815321, time=155.08s
+Too fast: only 155.08s
+p=387272759, a=124860295, b=2186117, P=(223741075,161701677), order=387264450, time=621.83s
+
+Selected curve and point:
+y^2 = x^3 + 124860295x + 2186117 (mod 387272759)
+Point P = (223741075, 161701677), order = 387264450, computed in 621.83s
+\end{lstlisting}
+
 \begin{itemize}
     \item $p = 300\,000\,007$ (результаты оказались слишком быстрыми, около 440 с)
     \item $p = 426\,000\,017$ (найдена кривая с временем вычисления 658.79 с)
@@ -192,7 +223,6 @@ import random
 import signal
 import time
 
-
 class EllipticCurve:
     def __init__(self, a, b, p):
         self.a = a
@@ -239,7 +269,6 @@ def mul(P, n):
         n >>= 1
     return R
 
-
 def get_random_xy(E):
     while True:
         x = random.randrange(E.p)
@@ -272,7 +301,6 @@ class TimeoutError(Exception):
 def _timeout_handler(signum, frame):
     raise TimeoutError
     
-
 def brute_order(P, max_seconds=660):
     signal.signal(signal.SIGALRM, _timeout_handler)
     signal.alarm(max_seconds)
